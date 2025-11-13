@@ -13,17 +13,17 @@ import simon from "../assets/simon.png";
 import tom from "../assets/tom.png";
 import megan from "../assets/megan.png";
 
-const Sidebar = ({ showSidebar }) => {
+const Sidebar = ({ showSidebar, category, setCategory }) => {
   const items = [
-    { link: home, data: "Home" },
-    { link: game_icon, data: "Gaming" },
-    { link: automobiles, data: "Automobiles" },
-    { link: sports, data: "Sports" },
-    { link: entertainment, data: "Entertainment" },
-    { link: tech, data: "Technology" },
-    { link: music, data: "Music" },
-    { link: blogs, data: "Blogs" },
-    { link: news, data: "News" },
+    { link: home, data: "Home", id: 0 },
+    { link: game_icon, data: "Gaming", id: 20 },
+    { link: automobiles, data: "Automobiles", id: 2 },
+    { link: sports, data: "Sports", id: 17 },
+    { link: entertainment, data: "Entertainment", id: 24 },
+    { link: tech, data: "Technology", id: 28 },
+    { link: music, data: "Music", id: 10 },
+    { link: blogs, data: "Blogs", id: 22 },
+    { link: news, data: "News", id: 25 },
   ];
 
   const subscribed = [
@@ -40,13 +40,26 @@ const Sidebar = ({ showSidebar }) => {
       } h-screen flex flex-col gap-5 pl-3 pt-4 text-gray-500`}
     >
       <div>
-        {items.map(({ link, data }) => (
+        {items.map(({ link, data, id }) => (
           <div
             key={data}
-            className="flex items-center gap-3 py-2 cursor-pointer px-2"
+            onClick={() => setCategory(id)}
+            className={`flex flex-col items-center ${
+              !showSidebar ? "flex-row justify-start" : "justify-center"
+            } gap-2 py-2 cursor-pointer px-2 rounded-md transition relative group`}
           >
             <img src={link} alt={data} className="w-6 h-6" />
             {!showSidebar && <p className="text-sm">{data}</p>}
+
+            {category === id && (
+              <span
+                className={`absolute ${
+                  showSidebar
+                    ? "bottom-0 left-3.5 w-6 h-0.5"
+                    : "bottom-0 left-2 w-6 h-0.5"
+                } bg-red-500 rounded-full transition-all duration-300`}
+              ></span>
+            )}
           </div>
         ))}
       </div>
@@ -54,18 +67,17 @@ const Sidebar = ({ showSidebar }) => {
       <hr className="border-gray-300" />
 
       {!showSidebar && (
-          <p className="text-red-500 font-semibold mb-2 px-2">Subscribed</p>
-           )}
-          {subscribed.map(({ link, name }) => (
-            <div
-              key={name}
-              className="flex items-center gap-3 cursor-pointer px-2 transition"
-            >
-              <img src={link} alt={name} className="w-8 h-8 rounded-full" />
-            {!showSidebar &&  <p className="text-sm">{name}</p>} 
-            </div>
-          ))}
-     
+        <p className="text-red-500 font-semibold mb-2 px-2">Subscribed</p>
+      )}
+      {subscribed.map(({ link, name }) => (
+        <div
+          key={name}
+          className="flex items-center gap-3 cursor-pointer px-2 transition"
+        >
+          <img src={link} alt={name} className="w-8 h-8 rounded-full" />
+          {!showSidebar && <p className="text-sm">{name}</p>}
+        </div>
+      ))}
     </div>
   );
 };
