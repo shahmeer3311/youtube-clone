@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { API_KEY, views_Converter } from "../data";
+import moment from "moment"
 
 const Feed = ({ category }) => {
   const [data, setData] = useState([]);
@@ -54,10 +55,7 @@ const Feed = ({ category }) => {
             </h3>
             <p className="text-[14px] mx-2 text-gray-600">
               {views_Converter(item.statistics?.viewCount)} •{" "}
-              {new Date(item.snippet.publishedAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
+              {moment(item.snippet.publishedAt).fromNow()}
             </p>
           </Link>
         ))}
